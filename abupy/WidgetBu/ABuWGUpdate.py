@@ -29,8 +29,8 @@ class WidgetUpdate(WidgetBase, WidgetTimeModeMixin):
         # 修改为默认使用开始结束日期
         self.time_mode.value = 1
         # 修改开始结束日期时间字符串
-        self.start.value = '2011-08-08'
-        self.end.value = '2017-08-08'
+        self.start.value = '2015-08-08'
+        self.end.value = '2020-08-08'
 
         self.market = widgets.Dropdown(
             options=OrderedDict({u'美股': EMarketTargetType.E_MARKET_TARGET_US.value,

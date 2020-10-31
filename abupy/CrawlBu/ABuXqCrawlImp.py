@@ -48,6 +48,7 @@ class BaseXQCrawlBrower(six.with_metaclass(ABCMeta, object)):
     """
 
     def __init__(self, base_url):
+        print('1')
         self._base_url = base_url
         if env.g_crawl_chrome_driver is not None:
             self.driver_path = env.g_crawl_chrome_driver
@@ -60,6 +61,11 @@ class BaseXQCrawlBrower(six.with_metaclass(ABCMeta, object)):
         from selenium import webdriver
         self.driver = webdriver.Chrome(self.driver_path)
         self.wait = ui.WebDriverWait(self.driver, 10)
+        #add by roma 防止反爬虫，延时2秒
+        #import time
+        #time.sleep(2)
+
+
 
     @abstractmethod
     def _crawl_imp(self, *args, **kwargs):
@@ -81,6 +87,7 @@ class BaseXQCrawlBrower(six.with_metaclass(ABCMeta, object)):
         """
         ret = None
         try:
+            print('2')
             self.driver.get(self._base_url)
             self.driver.maximize_window()
             ret = self._crawl_imp(*args, **kwargs)
@@ -170,6 +177,7 @@ class StockListCrawlBrower(BaseHQCrawlBrower):
 
     def _crawl_imp(self, *args, **kwargs):
         self._ensure_max_page_size()
+        print('3')
 
         cur_page, total_page = self._curr_total_page()
         names = []
@@ -237,11 +245,21 @@ class StockInfoListBrower(BaseXQCrawlBrower):
     def _parse_stock_info(self):
         selector = _xpath(self.content)
         # 特斯拉(NASDAQ:TSLA)
+        """ -----要更新 roma -----
         stock_name = selector.xpath('//*[@id="center"]/div[2]/div[2]/div[1]/div[1]/span[1]/strong/text()')
         company_info_p = selector.xpath('//*[@id="center"]/div[3]/div/div[2]/div/p')
         company_industry = selector.xpath('//*[@id="relatedIndustry"]/h2/a/text()')
-
         quate_items = selector.xpath('//*[@id="center"]/div[2]/div[2]/div[2]/table/tbody/tr/td')
+        """
+        stock_name = selector.xpath('//*[@id="app"]/div[2]/div[2]/div[1]')
+        company_info_p = selector.xpath('//*[@id="center"]/div[3]/div/div[2]/div/p')
+        company_industry = selector.xpath('//*[@id="relatedIndustry"]/h2/a/text()')
+        quate_items = selector.xpath('//*[@id="center"]/div[2]/div[2]/div[2]/table/tbody/tr/td')
+
+        print('stock_name:{}'.format(stock_name[0]))
+        print('company_info_p:{}'.format(company_info_p))
+        print('company_industry:{}'.format(company_industry))
+        print('quate_items:{}'.format(quate_items))
 
         info = {}
         if len(stock_name):
@@ -278,6 +296,7 @@ class StockInfoListBrower(BaseXQCrawlBrower):
         return info
 
     def _crawl_imp(self, *args, **kwargs):
+        print('crawl1')
         for index, symbol in enumerate(self._symbols):
             try:
                 if not ABuXqFile.exist_stock_info(self._market, symbol) or ('replace' in kwargs and kwargs['replace']):

@@ -153,7 +153,7 @@ def __search(market_df, search_match, search_code, search_result, match_key='co_
         # 如果search_code没有能全匹配成功，使用拼音进行匹配一次
         __search_pinyin_code(search_code)
     # 模糊匹配公司名称或者产品等信息symbol
-    __search_fnmatch_info(search_match)
+    #__search_fnmatch_info(search_match)
 
 
 def _us_search(search_match, search_code, search_result):

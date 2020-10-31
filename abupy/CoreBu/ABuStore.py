@@ -286,6 +286,11 @@ def store_abu_result_out_put(abu_result_tuple, show_log=True):
     date_dir = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")
     fn = os.path.join(ABuEnv.g_project_data_dir, base_dir, date_dir, 'orders.csv')
     ABuFileUtil.ensure_dir(fn)
+    # add by roman 180118
+    ABuFileUtil.dump_df_csv(fn, abu_result_tuple.orders_pd)
+    if show_log:
+        print('save {} suc!'.format(fn))
+    # add end
 
     fn = os.path.join(ABuEnv.g_project_data_dir, base_dir, date_dir, 'actions.csv')
     ABuFileUtil.dump_df_csv(fn, abu_result_tuple.action_pd)

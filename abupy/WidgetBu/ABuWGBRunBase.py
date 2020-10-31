@@ -172,7 +172,7 @@ class WidgetTimeModeMixin(object):
 
         # 年数模式
         self.run_years = widgets.BoundedIntText(
-            value=2,
+            value=1,
             min=1,
             max=6,
             step=1,
@@ -181,13 +181,13 @@ class WidgetTimeModeMixin(object):
         )
         # 开始结束模式
         self.start = widgets.Text(
-            value='2014-07-26',
+            value='2017-08-01',
             placeholder=u'年-月-日',
             description=u'开始日期:',
             disabled=False
         )
         self.end = widgets.Text(
-            value='2016-07-26',
+            value='2017-12-01',
             placeholder=u'年-月-日',
             description=u'结束日期:',
             disabled=False

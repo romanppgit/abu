@@ -196,7 +196,7 @@ g_project_kl_df_data_example = os.path.join(_p_dir, 'RomDataBu/csv')
 """
 chrome 驱动
 """
-g_crawl_chrome_driver = None
+g_crawl_chrome_driver = '/Users/roman/lianghua/git/abu/chromedriver'
 
 
 # ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊ CrawlBu start ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
@@ -226,7 +226,7 @@ class EMarketSourceType(Enum):
 
 
 """默认设置数据源使用E_MARKET_SOURCE_bd"""
-g_market_source = EMarketSourceType.E_MARKET_SOURCE_bd
+g_market_source = EMarketSourceType.E_MARKET_SOURCE_tx
 
 """自定义的私有数据源类，默认None"""
 g_private_data_source = None
@@ -302,7 +302,8 @@ class EMarketSubType(Enum):
 
 
 """切换目标操作市场，美股，A股，港股，期货，比特币等，默认美股市场"""
-g_market_target = EMarketTargetType.E_MARKET_TARGET_US
+#g_market_target = EMarketTargetType.E_MARKET_TARGET_US
+g_market_target = EMarketTargetType.E_MARKET_TARGET_CN
 
 """市场中1年交易日，默认250日"""
 g_market_trade_year = 250
@@ -353,52 +354,53 @@ g_data_fetch_mode = EMarketDataFetchMode.E_DATA_FETCH_NORMAL
 _g_enable_example_env_ipython = False
 
 
-def enable_example_env_ipython(show_log=True, check_cn=True):
-    """
-    只为在ipython example 环境中运行与书中一样的数据，即读取RomDataBu/csv下的数据
 
-    初始内置在RomDataBu/csv.zip下的数据只有zip压缩包，因为git上面的文件最好不要超过50m，
-    内置测试数据，包括美股，a股，期货，比特币，港股数据初始化在csv.zip中，通过解压zip
-    之后将测试数据为csv(老版本都是使用hdf5，但windows用户有些hdf5环境有问题)
-    show_log: 是否显示enable example env will only read RomDataBu/df_kl.h5
-    check_cn: 是否检测运行环境有中文路径
-    """
-
-    if not os.path.exists(g_project_kl_df_data_example):
-        # 如果还没有进行解压，开始解压csv.zip
-        data_example_zip = os.path.join(_p_dir, 'RomDataBu/csv.zip')
-        try:
-            from zipfile import ZipFile
-            zip_csv = ZipFile(data_example_zip, 'r')
-            unzip_dir = os.path.join(_p_dir, 'RomDataBu/')
-            for csv in zip_csv.namelist():
-                zip_csv.extract(csv, unzip_dir)
-            zip_csv.close()
-        except Exception as e:
-            # 解压测试数据zip失败，就不开启测试数据模式了
-            print('example env failed! e={}'.format(e))
-            return
-
-    global _g_enable_example_env_ipython, g_data_fetch_mode
-    _g_enable_example_env_ipython = True
-    g_data_fetch_mode = EMarketDataFetchMode.E_DATA_FETCH_FORCE_LOCAL
-    if check_cn:
-        try:
-            from ..UtilBu.ABuStrUtil import str_is_cn, to_unicode
-            if str_is_cn(str(__file__)):
-                # 检测到运行环境路径中含有中文，严重错误，将出错，使用中文警告
-                msg = u'严重错误！当前运行环境下有中文路径，abu将无法正常运行！请不要使用中文路径名称, 当前环境为{}'.format(
-                    to_unicode(str(__file__)))
-                logging.info(msg)
-                return
-        except:
-            # 没有必要显示log给用户，如果是其它编码的字符路径会进到这里
-            # logging.exception(e)
-            msg = 'error！non English characters in the current running environment,abu will not work properly!'
-            logging.info(msg)
-    if show_log:
-        logging.info('enable example env will only read RomDataBu/csv')
-
+# def enable_example_env_ipython(show_log=True, check_cn=True):
+#     """
+#     只为在ipython example 环境中运行与书中一样的数据，即读取RomDataBu/csv下的数据
+#
+#     初始内置在RomDataBu/csv.zip下的数据只有zip压缩包，因为git上面的文件最好不要超过50m，
+#     内置测试数据，包括美股，a股，期货，比特币，港股数据初始化在csv.zip中，通过解压zip
+#     之后将测试数据为csv(老版本都是使用hdf5，但windows用户有些hdf5环境有问题)
+#     show_log: 是否显示enable example env will only read RomDataBu/df_kl.h5
+#     check_cn: 是否检测运行环境有中文路径
+#     """
+#
+#     if not os.path.exists(g_project_kl_df_data_example):
+#         # 如果还没有进行解压，开始解压csv.zip
+#         data_example_zip = os.path.join(_p_dir, 'RomDataBu/csv.zip')
+#         try:
+#             from zipfile import ZipFile
+#             zip_csv = ZipFile(data_example_zip, 'r')
+#             unzip_dir = os.path.join(_p_dir, 'RomDataBu/')
+#             for csv in zip_csv.namelist():
+#                 zip_csv.extract(csv, unzip_dir)
+#             zip_csv.close()
+#         except Exception as e:
+#             # 解压测试数据zip失败，就不开启测试数据模式了
+#             print('example env failed! e={}'.format(e))
+#             return
+#
+#     global _g_enable_example_env_ipython, g_data_fetch_mode
+#     _g_enable_example_env_ipython = True
+#     g_data_fetch_mode = EMarketDataFetchMode.E_DATA_FETCH_FORCE_LOCAL
+#     if check_cn:
+#         try:
+#             from ..UtilBu.ABuStrUtil import str_is_cn, to_unicode
+#             if str_is_cn(str(__file__)):
+#                 # 检测到运行环境路径中含有中文，严重错误，将出错，使用中文警告
+#                 msg = u'严重错误！当前运行环境下有中文路径，abu将无法正常运行！请不要使用中文路径名称, 当前环境为{}'.format(
+#                     to_unicode(str(__file__)))
+#                 logging.info(msg)
+#                 return
+#         except:
+#             # 没有必要显示log给用户，如果是其它编码的字符路径会进到这里
+#             # logging.exception(e)
+#             msg = 'error！non English characters in the current running environment,abu will not work properly!'
+#             logging.info(msg)
+#     if show_log:
+#         logging.info('enable example env will only read RomDataBu/csv')
+#
 
 def disable_example_env_ipython(show_log=True):
     """

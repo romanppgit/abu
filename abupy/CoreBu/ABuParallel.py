@@ -18,7 +18,7 @@ from ..CoreBu import ABuEnv
 __author__ = '阿布'
 __weixin__ = 'abu_quant'
 
-# if ABuEnv.g_is_mac_os:
+#if ABuEnv.g_is_mac_os:
 if False:
     """
         对外版本不再使用joblib避免python2，python3，mac, windows等joblib最后的pop一直出不来的bug，

@@ -200,10 +200,11 @@ class AbuSymbolCN(AbuSymbolStockBase):
         """
 
         # 过滤df中的A股指数symbol
-        a_index = self.industry_factorize_name_series[self.industry_factorize_name_series == 'A股指数'].index.values[0]
-        df_filter = self.df[self.df['industry_factorize'] != a_index]
+        # delete by roman
+        # a_index = self.industry_factorize_name_series[self.industry_factorize_name_series == 'A股指数'].index.values[0]
+        # df_filter = self.df[self.df['industry_factorize'] != a_index]
         # 通过symbol_func转换为外部可直接使用ABuSymbolPd.make_kl_df请求的symbol序列
-        all_symbol = self.symbol_func(df_filter)
+        all_symbol = self.symbol_func(self.df)
         if index:
             # 需要返回大盘symbol
             all_symbol.extend(['{}{}'.format(EMarketSubType.SH.value, symbol) for symbol in Symbol.SH_INDEX])

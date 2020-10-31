@@ -17,7 +17,7 @@ __weixin__ = 'abu_quant'
     需要注意外部其它自定义仓位管理类不要随意使用模块全局变量，AbuAtrPosition特殊因为注册
     在ABuEnvProcess中在多进程启动时拷贝了模块全局设置内存
 """
-g_atr_pos_base = 0.1
+g_atr_pos_base = 0.3
 
 
 class AbuAtrPosition(AbuPositionBase):

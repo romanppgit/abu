@@ -40,9 +40,22 @@ def __crawl_stock_parallel(market, url):
                 list(
                     map(lambda s: (s[:2] in ['SZ', 'SH', 'sz', 'sh']) and str(s[2:]).isdigit(), df['symbol'].tolist()))]
             df['market'] = df['symbol'].map(lambda s: s[:2])
+            df['symbol'] = df['symbol'].map(lambda s: s[2:])
         else:
             df['market'] = market
 
+        df['asset'] = '-'
+        df['co_business'] = '-'
+        df['cc'] = '-'
+        df['amplitude'] = '-'
+        df['pe_s_d'] = '-'
+        df['co_intro'] = '-'
+        df['exchange'] = df['market']
+        df['mv'] = '-'
+        df['pb_d'] = '-'
+        df['ps_d'] = '-'
+        df['equity'] = '-'
+        df['industry'] = '-'
         df.to_csv(map_stock_list(market), index=False)
 
 
@@ -65,7 +78,8 @@ def hq_nav():
 
 
 @ABuDTUtil.warnings_filter
-def crawl_stock_code(markets=('CN', 'HK', 'US')):
+#def crawl_stock_code(markets=('CN', 'HK', 'US')):
+def crawl_stock_code(markets=('CN',)):
     """
     从雪球获取市场股市代码
     :param markets: 市场类型
@@ -93,7 +107,7 @@ def crawl_stock_info(markets):
     _parts = []
     for m in markets:
         symbols = ABuXqFile.read_stock_symbol_list(m)
-        interval = 1000
+        interval = 5000
 
         # 将 symbols 划分成一组1000个
         for s in range(int(math.ceil(len(symbols) / interval))):
@@ -161,13 +175,19 @@ def ensure_symbol(symbol):
     return market, None
 
 
-def update_all(markets=('US', 'CN', 'HK')):
+#def update_all(markets=('US', 'CN', 'HK')):
+def update_all(markets=('CN',)):
     crawl_stock_code(markets)
-    crawl_stock_info(markets)
-    ABuXqFile.merge_stock_info_to_stock_list(markets)
-    ABuXqFile.fix_xq_columns_name()
+    import time
+    print('等待{}秒'.format(3))
+    time.sleep(3)
+    #crawl_stock_info(markets)
+    #ABuXqFile.merge_stock_info_to_stock_list(markets)
+    #ABuXqFile.fix_xq_columns_name()
 
 
 def query_symbol_info(symbol):
     m, symbol = ensure_symbol(symbol)
     return None if symbol is None else ABuXqFile.query_a_stock(m, symbol)
+
+

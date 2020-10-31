@@ -38,10 +38,13 @@ K_MARKET_TRAIN_FN_BASE = os.path.join(ABuEnv.g_project_cache_dir, 'market_train_
 
 # TODO 从沙盒数据库里读取，否则之后有变动还需要跟着改
 K_SAND_BOX_US = ['usTSLA', 'usNOAH', 'usSFUN', 'usBIDU', 'usAAPL', 'usGOOG', 'usWUBA', 'usVIPS']
+"""
+
 K_SAND_BOX_CN = ['sz002230', 'sz300104', 'sz300059', 'sh601766', 'sh600085', 'sh600036',
                  'sh600809', 'sz000002', 'sz002594', 'sz002739']
+"""
 K_SAND_BOX_HK = ['hk03333', 'hk00700', 'hk02333', 'hk01359', 'hk00656', 'hk03888', 'hk02318']
-
+K_SAND_BOX_CN = ['sz001872', 'sz000088', 'sz002594']
 
 # noinspection PyUnresolvedReferences
 class MarketMixin(object):

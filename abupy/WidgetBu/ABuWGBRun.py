@@ -155,7 +155,8 @@ class WidgetRunLoopBack(WidgetBase):
         self.ump.run_before()
         if choice_symbols is not None and len(choice_symbols) == 1:
             # 如果只有1支股票回测，直接使用这个股票做为做为对比基准
-            benchmark = AbuBenchmark(choice_symbols[0])
+            # fix by romanpp 180106 增加start, end, n_folds
+            benchmark = AbuBenchmark(choice_symbols[0], start, end, n_folds)
             capital = AbuCapital(cash, benchmark)
             if len(pos_class_list) == 0:
                 # 如果只有1支股票回测，且没有修改过资金管理设置，持仓比例调高

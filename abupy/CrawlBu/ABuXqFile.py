@@ -60,7 +60,12 @@ def exist_stock_info(market, symbol):
 
 def read_stock_symbol_list(market):
     return pd.read_csv(map_stock_list(market))['symbol'].tolist()
-
+    """ 有问题--------
+    df = pd.read_csv(map_stock_list(market), names = ["market","symbol"])
+    df['symbol'] = df['market'] + df['symbol']
+    print('symbol{}'.format(df['symbol']))
+    return df['symbol'].tolist()
+    """
 
 def read_stock_symbol_name(market, symbol):
     df = pd.read_csv(map_stock_list(market))
@@ -106,7 +111,7 @@ def _create_a_column(info, columns, size):
             info[c] = [None] * size
 
 
-def merge_stock_info_to_stock_list(market=('US', 'HK', 'CN')):
+def merge_stock_info_to_stock_list(market=('CN',)):
     for m in market:
         stock_df = pd.read_csv(map_stock_list(m), dtype=str)
         extra_info = {}
@@ -150,7 +155,8 @@ def fix_xq_columns_name():
     """
     雪球获取的数据的key都是中文，dataframe的columns不变与用中文
     """
-    for m in ('US', 'CN', 'HK'):
+    #for m in ('US', 'CN', 'HK'):
+    for m in ('CN',):
         stock_df = pd.read_csv(map_stock_list_rom(m), dtype=str)
         unnecessary_columns = stock_df.columns.difference(columns_map.keys())
         columns_intersection = stock_df.columns & columns_map.keys()
