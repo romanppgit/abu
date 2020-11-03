@@ -7,14 +7,17 @@ from __future__ import division
 import widget_base
 
 
-def show_ui():
+def show_ui() -> object:
     with widget_base.show_ui_ct() as go_on:
         if not go_on:
             return
 
         import abupy
         # check_cn=False因为上文已经check了
-        abupy.env.enable_example_env_ipython(check_cn=False)
+        # abupy.env.enable_example_env_ipython(check_cn=False)
         from abupy import WidgetRunLoopBack
         widget = WidgetRunLoopBack()
     return widget()
+
+
+show_ui()
